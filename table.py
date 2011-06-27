@@ -15,9 +15,15 @@ class Table(object):
     self.donnee = liste
   
   def affiche(self):
+    """"
+    Afficher une table en mode liste de listes
+    """
     return self.donnee
 
   def reorderListe(self):
+    """
+    réordonner une liste (vue comme table) en mettant les 0 à gauche et les 1 à droite
+    """
     li = self.donnee
     li.sort()
     return li
