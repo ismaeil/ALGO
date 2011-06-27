@@ -50,6 +50,12 @@ class TableAffichageTest(unittest.TestCase):
     t = Table([[0, 0, 1], [1, 1, 1], [1, 0, 0], [1, 1, 0]])
     self.assertEquals(t.permCol(0, 2),[[1, 0, 0], [1, 1, 1], [0, 0, 1], [1, 1, 0]])
 
+  def test_keyZeroUn(self):
+    t = Table([1, 0, 0, 0, 1])
+    self.assertEquals(t.keyZeroUn(),[[1, 2, 3], [0, 4]])
+    t2 = Table([1, 0, 0, 0, 1, 1, 1, 1])
+    self.assertEquals(t2.keyZeroUn(),[[1, 2, 3], [0, 4, 5, 6, 7]])
+    
 
 
 
