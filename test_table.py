@@ -35,17 +35,6 @@ class TableAffichageTest(unittest.TestCase):
     l = Table([1, 1, 0, 1, 0])
     self.assertEquals(l.reorderListe(),[0, 0, 1, 1, 1])
 
-  
-  def test_reorderTab(self):
-    """
-    0 1 1 1                           1 1 0 1
-    0 1 0 1     se transforme en      0 1 0 1
-    1 1 0 0                           0 0 1 1
-    """
-    pass
-    #~ t = Table([[0, 0, 1], [1, 1, 1], [1, 0, 0], [1, 1, 0]])
-    #~ self.assertEquals(t.reorderTab(),[[1, 0, 0], [1, 1, 0], [0, 0, 1], [1, 1, 1]])
-
   def test_permCol(self):
     t = Table([[0, 0, 1], [1, 1, 1], [1, 0, 0], [1, 1, 0]])
     self.assertEquals(t.permCol(0, 2),[[1, 0, 0], [1, 1, 1], [0, 0, 1], [1, 1, 0]])
@@ -61,6 +50,19 @@ class TableAffichageTest(unittest.TestCase):
     self.assertEquals(t.getLigne(2),[1, 1, 0, 0])
     self.assertEquals(t.getLigne(1),[0, 1, 0, 1])
 
+  def test_nouvelOrdre(self):
+    t = Table([[0, 0, 1], [1, 1, 1], [1, 0, 0], [1, 1, 0]])
+    self.assertEquals(t.nouvelOrdre([3, 1, 0, 2]),[[1, 1, 0], [1, 1, 1], [0, 0, 1], [1, 0, 0]])
+  
+  def test_reorderTab(self):
+    """
+    0 1 1 1                           1 1 0 1
+    0 1 0 1     se transforme en      0 1 0 1
+    1 1 0 0                           0 0 1 1
+    """
+    pass
+    #~ t = Table([[0, 0, 1], [1, 1, 1], [1, 0, 0], [1, 1, 0]])
+    #~ self.assertEquals(t.reorderTab(),[[1, 0, 0], [1, 1, 0], [0, 0, 1], [1, 1, 1]])
 
 
 if __name__ == '__main__':

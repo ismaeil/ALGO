@@ -21,12 +21,7 @@ class Table(object):
     li = self.donnee
     li.sort()
     return li
-    
-  def reorderTab(self):
-    #~ nligne = len(self.donnee)
-    #~ ncolonne = len(self.donnee[0])
-    pass
-  
+
   def permCol(self, i, j):
     """
     échange les colonnes i et j
@@ -56,3 +51,24 @@ class Table(object):
     for i in range(len(self.donnee)):
       li.append(self.donnee[i][ligne])
     return li
+
+  def nouvelOrdre(self, liste):
+    """
+    réordonner les colonnes suivant la liste en tant qu'index
+    exemple :
+    la résultat du réordonnancement de 
+    [[0, 0, 1], [1, 1, 1], [1, 0, 0], [1, 1, 0]]
+    suivant la table [3, 1, 0, 2]
+    est
+    [[1, 1, 0], [1, 1, 1], [0, 0, 1], [1, 0, 0]]
+    """
+    result = []
+    for i in range(len(self.donnee)):
+      result.append(self.donnee[liste[i]])
+    return result
+    
+  def reorderTab(self):
+    #~ nligne = len(self.donnee)
+    #~ ncolonne = len(self.donnee[0])
+    pass
+  
