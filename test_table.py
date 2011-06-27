@@ -56,6 +56,10 @@ class TableAffichageTest(unittest.TestCase):
     t2 = Table([1, 0, 0, 0, 1, 1, 1, 1])
     self.assertEquals(t2.keyZeroUn(),[[1, 2, 3], [0, 4, 5, 6, 7]])
     
+  def test_getLigne(self):
+    t = Table([[0, 0, 1], [1, 1, 1], [1, 0, 0], [1, 1, 0]])
+    self.assertEquals(t.getLigne(2),[1, 1, 0, 0])
+    self.assertEquals(t.getLigne(1),[0, 1, 0, 1])
 
 
 

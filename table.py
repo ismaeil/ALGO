@@ -34,7 +34,7 @@ class Table(object):
     self.donnee[i], self.donnee[j] = self.donnee[j], self.donnee[i]
     return self.donnee
     
-  def keyZeroUn (self):
+  def keyZeroUn(self):
     """
     à priori cette méthode est indépendante de la classe Table
     entrée = une liste de 0 1 par exemple [1, 0, 0, 0, 1]
@@ -51,4 +51,8 @@ class Table(object):
         zero += [i]
     return [zero, un]
        
-    
+  def getLigne(self, ligne):
+    li = []
+    for i in range(len(self.donnee)):
+      li.append(self.donnee[i][ligne])
+    return li
