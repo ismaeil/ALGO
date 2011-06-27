@@ -29,14 +29,29 @@ class TableAffichageTest(unittest.TestCase):
     self.assertEquals(t1.affiche(),[[1, 1, 0], [1, 0, 0], [1, 0, 1], [0, 0, 1], [0, 1, 0]])
   
   def test_reorderListe(self):
+    """cette méthode ne sert à rien puisque dans une vrai table on 
+    échangera les colonnes
+    """
     l = Table([1, 1, 0, 1, 0])
     self.assertEquals(l.reorderListe(),[0, 0, 1, 1, 1])
 
   
   def test_reorderTab(self):
-    #~ t = liste de listes
-    #~ self.assertEquals(t.reorderTab(),liste de listes ordonnées)
+    """
+    0 1 1 1                           1 1 0 1
+    0 1 0 1     se transforme en      0 1 0 1
+    1 1 0 0                           0 0 1 1
+    """
     pass
+    #~ t = Table([[0, 0, 1], [1, 1, 1], [1, 0, 0], [1, 1, 0]])
+    #~ self.assertEquals(t.reorderTab(),[[1, 0, 0], [1, 1, 0], [0, 0, 1], [1, 1, 1]])
+
+  def test_permCol(self):
+    t = Table([[0, 0, 1], [1, 1, 1], [1, 0, 0], [1, 1, 0]])
+    self.assertEquals(t.permCol(0, 2),[[1, 0, 0], [1, 1, 1], [0, 0, 1], [1, 1, 0]])
+
+
+
 
 if __name__ == '__main__':
   unittest.main()
