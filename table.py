@@ -11,15 +11,16 @@ class Table(object):
   est :
   [[1, 1, 0], [1, 0, 0], [1, 0, 1], [0, 0, 1], [0, 1, 0]]
   """
+  
   def __init__(self, liste):
     self.donnee = liste
   
   def affiche(self):
     """"
-    Afficher une table en mode liste de listes
+    Afficher une table en mode liste de listes (colonnes)
     """
     return self.donnee
-
+  
   def reorderListe(self):
     """
     réordonner une liste (vue comme table) en mettant les 0 à gauche et les 1 à droite
@@ -27,14 +28,14 @@ class Table(object):
     li = self.donnee
     li.sort()
     return li
-
+  
   def permCol(self, i, j):
     """
     échange les colonnes i et j
     """
     self.donnee[i], self.donnee[j] = self.donnee[j], self.donnee[i]
     return self.donnee
-    
+  
   def keyZeroUn(self):
     """
     à priori cette méthode est indépendante de la classe Table
@@ -51,13 +52,13 @@ class Table(object):
       else:
         zero += [i]
     return [zero, un]
-       
+  
   def getLigne(self, ligne):
     li = []
     for i in range(len(self.donnee)):
       li.append(self.donnee[i][ligne])
     return li
-
+  
   def nouvelOrdre(self, liste):
     """
     réordonner les colonnes suivant la liste en tant qu'index
@@ -72,7 +73,7 @@ class Table(object):
     for i in range(len(self.donnee)):
       result.append(self.donnee[liste[i]])
     return result
-    
+  
   def reorderTab(self):
     #~ nligne = len(self.donnee)
     #~ ncolonne = len(self.donnee[0])

@@ -34,17 +34,17 @@ class TableAffichageTest(unittest.TestCase):
     """
     l = Table([1, 1, 0, 1, 0])
     self.assertEquals(l.reorderListe(),[0, 0, 1, 1, 1])
-
+  
   def test_permCol(self):
     t = Table([[0, 0, 1], [1, 1, 1], [1, 0, 0], [1, 1, 0]])
     self.assertEquals(t.permCol(0, 2),[[1, 0, 0], [1, 1, 1], [0, 0, 1], [1, 1, 0]])
-
+  
   def test_keyZeroUn(self):
     t = Table([1, 0, 0, 0, 1])
     self.assertEquals(t.keyZeroUn(),[[1, 2, 3], [0, 4]])
     t2 = Table([1, 0, 0, 0, 1, 1, 1, 1])
     self.assertEquals(t2.keyZeroUn(),[[1, 2, 3], [0, 4, 5, 6, 7]])
-    
+  
   def test_getLigne(self):
     t = Table([[0, 0, 1], [1, 1, 1], [1, 0, 0], [1, 1, 0]])
     self.assertEquals(t.getLigne(2),[1, 1, 0, 0])
