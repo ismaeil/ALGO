@@ -1,1 +1,14 @@
 Algorithme de réordonnancement d'une table 0/1 ordonnable ou pas !
+Dans cet algorithme on réordonne que les colonnes
+
+    0 1 1 1                           1 1 0 1
+    0 1 0 1     se transforme en      0 1 0 1
+    1 1 0 0                           0 0 1 1
+    
+Pour celà on créé l'objet t :
+>>>t = Table([[0, 0, 1], [1, 1, 1], [1, 0, 0], [1, 1, 0]])
+
+puis on l'odonne :
+>>>t.reorderTab()
+[[1, 0, 0], [1, 1, 0], [0, 0, 1], [1, 1, 1]]
+

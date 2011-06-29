@@ -13,7 +13,6 @@ updir = os.path.split(dirname)[0]
 if updir not in sys.path:
     sys.path.append(updir)
 
-
 from table import *
 
 class TableAffichageTest(unittest.TestCase):
@@ -51,8 +50,23 @@ class TableAffichageTest(unittest.TestCase):
     self.assertEquals(t.getLigne(1),[0, 1, 0, 1])
 
   def test_nouvelOrdre(self):
+    """
+    ordonne les colonnes dans l'ordre passé en argument à l'aide d'une liste
+    ATTENTION : le min de la liste d'ordre est un 0
+    """
     t = Table([[0, 0, 1], [1, 1, 1], [1, 0, 0], [1, 1, 0]])
     self.assertEquals(t.nouvelOrdre([3, 1, 0, 2]),[[1, 1, 0], [1, 1, 1], [0, 0, 1], [1, 0, 0]])
+    
+  def test_goodListe(self):
+    """
+    [set([]), set([3]), set([]), set([4]), set([1]), set([]), set([]), set([2])]
+    se transforme en 
+    [3, 4, 1, 2]
+    puis en 
+    [2, 3, 0, 1] pour être adaptée à la méthode nouvelOrdre
+    """
+    t = goodListe([set([]), set([3]), set([]), set([4]), set([1]), set([]), set([]), set([2])])
+    self.assertEquals(t, [2, 3, 0, 1] )
   
   def test_reorderTab(self):
     """
@@ -60,10 +74,18 @@ class TableAffichageTest(unittest.TestCase):
     0 1 0 1     se transforme en      0 1 0 1
     1 1 0 0                           0 0 1 1
     """
-    pass
     #~ t = Table([[0, 0, 1], [1, 1, 1], [1, 0, 0], [1, 1, 0]])
-    #~ self.assertEquals(t.reorderTab(),[[1, 0, 0], [1, 1, 0], [0, 0, 1], [1, 1, 1]])
-
+    #~ self.assertEquals(t.reorderTab(),[3, 4, 1, 2])
+    t = Table([[0, 0, 1], [1, 1, 1], [1, 0, 0], [1, 1, 0]])
+    self.assertEquals(t.reorderTab(),[[1, 0, 0], [1, 1, 0], [0, 0, 1], [1, 1, 1]])
+    t2 = Table([[1, 1, 1], [0, 1, 1], [0, 0, 1], [0, 1, 0]])
+    self.assertEquals(t2.reorderTab(),[[0, 1, 0], [0, 0, 1], [0, 1, 1], [1, 1, 1]])
+    
+  def test_isOrderUnique(self):
+    """"
+    l'idée est de voir si une permutation de colonne donnerait un ordre final totalement différent
+    """
+    pass
 
 if __name__ == '__main__':
   unittest.main()
