@@ -60,7 +60,7 @@ class TableAffichageTest(unittest.TestCase):
    
   def test_transposeData(self):
     """
-    entrée = [[1, 2, 3, 4, 5],[11, 12, 13, 14, 15],[21, 22, 23, 24, 25]]
+    entree = [[1, 2, 3, 4, 5],[11, 12, 13, 14, 15],[21, 22, 23, 24, 25]]
     sortie = [[1, 11, 21], [2, 12, 22], [3, 13, 23], [4, 14, 24], [5, 15, 25]]
     """
     t = [[1, 2, 3, 4, 5],[11, 12, 13, 14, 15],[21, 22, 23, 24, 25]]
@@ -74,5 +74,15 @@ class TableAffichageTest(unittest.TestCase):
     t = imporTable('Examples/table1.txt')
     self.assertEquals(t.donnee, [[1, 1, 0, 1], [0, 1, 0 ,1], [0, 1, 1, 0], [1, 0, 0, 0], [0, 1, 1, 0], [1, 1, 1, 0]])
 
+  def test_reorderLC(self):
+    """
+    on donne la table, un ordre sur les lignes et sur les colonnes et on reordonne
+    entrée : liste de listes + ordre ligne + ordre colonne
+    sortie : liste de listes
+    """
+    t = [[1, 2, 3, 4, 5],[11, 12, 13, 14, 15],[21, 22, 23, 24, 25]]
+    result = [[23, 22, 25, 24, 21], [3, 2, 5, 4, 1], [13, 12, 15, 14, 11]]
+    self.assertEquals(reorderLC(t, [2, 1, 4, 3, 0], [2, 0, 1]), result)
+  
 if __name__ == '__main__':
   unittest.main()

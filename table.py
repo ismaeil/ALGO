@@ -108,3 +108,16 @@ def imporTable(chemin):
   sortie = transposeData(sortie)
   
   return Table(sortie)
+
+def reorderLC(table, ordrel, ordrec):
+  """
+  on donne la table, un ordre sur les lignes et sur les colonnes et on reordonne
+  entrée : liste de listes + ordre ligne + ordre colonne
+  sortie : liste de listes
+  """
+  sortie =[[] for i in ordrec]
+  for c in range(len(ordrec)):
+    for l in range(len(ordrel)):
+      sortie[c].append(table[ordrec[c]][ordrel[l]])
+  return sortie
+
