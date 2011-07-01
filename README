@@ -8,7 +8,7 @@ Dans cet algorithme on réordonne que les colonnes
 Pour celà on créé l'objet t :
 >>>t = Table([[0, 0, 1], [1, 1, 1], [1, 0, 0], [1, 1, 0]])
 
-puis on l'odonne :
+puis on l'ordonne :
 >>>t.reorderTab()
 [[1, 0, 0], [1, 1, 0], [0, 0, 1], [1, 1, 1]]
 
