@@ -26,8 +26,8 @@ class Table(object):
     [[1, 1, 0], [1, 1, 1], [0, 0, 1], [1, 0, 0]]
     """
     result = []
-    for i in range(len(self.donnee)):
-      result.append(self.donnee[liste[i]])
+    for i in liste:
+      result.append(self.donnee[i])
     return result
   
   def reorderTab(self):
