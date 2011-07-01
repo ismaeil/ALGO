@@ -57,6 +57,22 @@ class TableAffichageTest(unittest.TestCase):
     """
     t2 = Table([[1, 1, 1], [0, 1, 1], [0, 0, 1], [0, 1, 0]])
     self.assertEquals(t2.reorderTab(),[[0, 1, 0], [0, 0, 1], [0, 1, 1], [1, 1, 1]])
+   
+  def test_transposeData(self):
+    """
+    entrée = [[1, 2, 3, 4, 5],[11, 12, 13, 14, 15],[21, 22, 23, 24, 25]]
+    sortie = [[1, 11, 21], [2, 12, 22], [3, 13, 23], [4, 14, 24], [5, 15, 25]]
+    """
+    t = [[1, 2, 3, 4, 5],[11, 12, 13, 14, 15],[21, 22, 23, 24, 25]]
+    self.assertEquals(transposeData(t), [[1, 11, 21], [2, 12, 22], [3, 13, 23], [4, 14, 24], [5, 15, 25]])
+  
+  def test_imporTable(self):
+    """
+    importer le fichier Examples/table1.txt
+    et construire l'objet Table correspondant
+    """
+    t = imporTable('Examples/table1.txt')
+    self.assertEquals(t.donnee, [[1, 1, 0, 1], [0, 1, 0 ,1], [0, 1, 1, 0], [1, 0, 0, 0], [0, 1, 1, 0], [1, 1, 1, 0]])
 
 if __name__ == '__main__':
   unittest.main()
