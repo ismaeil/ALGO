@@ -121,3 +121,24 @@ def reorderLC(table, ordrel, ordrec):
       sortie[c].append(table[ordrec[c]][ordrel[l]])
   return sortie
 
+def choixPivot(table, ensemble_ligne):
+  """
+  On entend par pivot la ligne qui a le plus grand poid
+  Exemple :
+  1 0 0 1 0 1
+  1 1 1 0 1 1
+  0 0 1 0 1 1
+  1 1 0 0 0 0
+  
+  qui est table = [[1, 1, 0, 1], [0, 1, 0 ,1], [0, 1, 1, 0], [1, 0, 0, 0], [0, 1, 1, 0], [1, 1, 1, 0]]
+  on a choixPivot(table, set([0, 1, 3])) = 1 car le poid de la ligne 1 est cinq et est supérieur ou égal 
+  au poid des autres lignes. 
+  """
+  resultat = -1
+  somme = 0
+  for k in ensemble_ligne:
+    aux = sum(table[i][k] for i in range(len(table)))
+    if aux >= somme:
+      somme = aux
+      resultat = k
+  return resultat

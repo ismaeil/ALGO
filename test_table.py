@@ -83,6 +83,41 @@ class TableAffichageTest(unittest.TestCase):
     t = [[1, 2, 3, 4, 5],[11, 12, 13, 14, 15],[21, 22, 23, 24, 25]]
     result = [[23, 22, 25, 24, 21], [3, 2, 5, 4, 1], [13, 12, 15, 14, 11]]
     self.assertEquals(reorderLC(t, [2, 1, 4, 3, 0], [2, 0, 1]), result)
+    
+  #~ def test_monter(self):
+    #~ """
+    #~ Monter la table suivante :
+    #~ 1 0 0 1 0 1
+    #~ 1 1 1 0 1 1
+    #~ 0 0 1 0 1 1
+    #~ 1 1 0 0 0 0
+    #~ 
+    #~ suivant le nouvel algorithme et rendre les listes semi-trillée des lignes et colonnes sous forme d'une
+    #~ liste de listes ligne puis colonne.
+    #~ """
+      #~ t = [[1, 1, 0, 1], [0, 1, 0 ,1], [0, 1, 1, 0], [1, 0, 0, 0], [0, 1, 1, 0], [1, 1, 1, 0]]
+    #~ ordre_ligne_colonne = [[set([3]), set([0]), set([2]), set([1])], [set([3]), set([0, 1]), set([2, 4]), set([])]]
+    #~ self.assertEquals(monter(t), ordre_ligne_colonne)
   
+  def test_choixPivot(self):
+    """
+    On entend par pivot la ligne qui a le plus grand poid
+    Exemple :
+    1 0 0 1 0 1
+    1 1 1 0 1 1
+    0 0 1 0 1 1
+    1 1 0 0 0 0
+    
+    qui est t = [[1, 1, 0, 1], [0, 1, 0 ,1], [0, 1, 1, 0], [1, 0, 0, 0], [0, 1, 1, 0], [1, 1, 1, 0]]
+    on a choixPivot(t, set([0, 1, 3])) = 1 car le poid de la ligne 1 est cinq et est supérieur ou égal 
+    au poid des autres lignes. 
+    """
+    t = [[1, 1, 0, 1], [0, 1, 0 ,1], [0, 1, 1, 0], [1, 0, 0, 0], [0, 1, 1, 0], [1, 1, 1, 0]]
+    self.assertEquals(choixPivot(t, set([0, 1, 2, 3])), 1) #1
+    self.assertTrue(choixPivot(t, set([0, 3, 2])) in [0, 2]) #2
+    self.assertTrue(choixPivot(t, set([2, 3, 0])) in [0, 2]) #2 oui car set réordonne la liste !
+    self.assertTrue(choixPivot(t, set([0, 2, 3])) in [0, 2]) #2 
+    
+    
 if __name__ == '__main__':
   unittest.main()
