@@ -84,21 +84,7 @@ class TableAffichageTest(unittest.TestCase):
     result = [[23, 22, 25, 24, 21], [3, 2, 5, 4, 1], [13, 12, 15, 14, 11]]
     self.assertEquals(reorderLC(t, [2, 1, 4, 3, 0], [2, 0, 1]), result)
     
-  #~ def test_monter(self):
-    #~ """
-    #~ Monter la table suivante :
-    #~ 1 0 0 1 0 1
-    #~ 1 1 1 0 1 1
-    #~ 0 0 1 0 1 1
-    #~ 1 1 0 0 0 0
-    #~ 
-    #~ suivant le nouvel algorithme et rendre les listes semi-trillée des lignes et colonnes sous forme d'une
-    #~ liste de listes ligne puis colonne.
-    #~ """
-      #~ t = [[1, 1, 0, 1], [0, 1, 0 ,1], [0, 1, 1, 0], [1, 0, 0, 0], [0, 1, 1, 0], [1, 1, 1, 0]]
-    #~ ordre_ligne_colonne = [[set([3]), set([0]), set([2]), set([1])], [set([3]), set([0, 1]), set([2, 4]), set([])]]
-    #~ self.assertEquals(monter(t), ordre_ligne_colonne)
-  
+ 
   def test_choixPivot(self):
     """
     On entend par pivot la ligne qui a le plus grand poid
@@ -118,6 +104,42 @@ class TableAffichageTest(unittest.TestCase):
     self.assertTrue(choixPivot(t, set([2, 3, 0])) in [0, 2]) #2 oui car set réordonne la liste !
     self.assertTrue(choixPivot(t, set([0, 2, 3])) in [0, 2]) #2 
     
+  def test_entasserLigne1(self):
+    """
+    entasser une ligne selon un ensemble de colonnes revient à mettre tous ses 1 à droite et ses zero 
+    à gauche en changeant ainsi l'ordre des colonnes autorisée.
+    """
+    t = [[1, 1, 0, 1], [0, 1, 0 ,1], [0, 1, 1, 0], [1, 0, 0, 0], [0, 1, 1, 0], [1, 1, 1, 0]]
+    c = [set([3]), set([0, 1, 2, 4, 5])]
+    self.assertEquals(entasserLigne(t, 1, set([0, 1, 2, 3, 4, 5])), c)
+
+  def test_entasserLigne2(self):
+    """
+    entasser une ligne selon un ensemble de colonnes revient à mettre tous ses 1 à droite et ses zero 
+    à gauche en changeant ainsi l'ordre des colonnes autorisée.
+    """
+    t = [[1, 1, 0, 1], [0, 1, 0 ,1], [0, 1, 1, 0], [1, 0, 0, 0], [0, 1, 1, 0], [1, 1, 1, 0]]
+    c = [set([0, 3]), set([2, 5])]
+    self.assertEquals(entasserLigne(t, 2, set([0, 2, 3, 5])), c)
+
+
+  def test_monter(self):
+    """
+    Monter la table suivante :
+    1 0 0 1 0 1
+    1 1 1 0 1 1
+    0 0 1 0 1 1
+    1 1 0 0 0 0
+    suivant le nouvel algorithme et rendre les listes semi-triée des lignes et colonnes sous forme d'une
+    liste de listes ligne puis colonne.
+    """
+    t = [[1, 1, 0, 1], [0, 1, 0 ,1], [0, 1, 1, 0], [1, 0, 0, 0], [0, 1, 1, 0], [1, 1, 1, 0]]
+    ordre_ligne_colonne = [
+    [set([]), set([3]), set([0]), set([2]), set([1])],
+    [set([3]), set([0, 1]), set([2, 4]), set([5]), set([])]
+    ]
+    self.assertEquals(monter(t), ordre_ligne_colonne)
+ 
     
 if __name__ == '__main__':
   unittest.main()

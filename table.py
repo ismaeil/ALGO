@@ -142,3 +142,63 @@ def choixPivot(table, ensemble_ligne):
       somme = aux
       resultat = k
   return resultat
+  
+  
+def entasserLigne(table, ligne, colonnes_autorisees):
+  """
+  entasser une ligne selon un ensemble de colonnes revient à mettre tous ses 1 à droite et ses zero 
+  à gauche en changeant ainsi l'ordre des colonnes autorisée.
+    """
+  zero, un = [], []
+  for i in colonnes_autorisees:
+    if table[i][ligne] == 0:
+      zero.append(i)
+    else:
+      un.append(i)
+  nouvel_ordre_colonnes_autorisees = [set(zero), set(un)] # il peut y avir des ensembles vides
+  
+  return nouvel_ordre_colonnes_autorisees
+
+
+def monter(table):
+  """
+  Monter la table suivante :
+  1 0 0 1 0 1
+  1 1 1 0 1 1
+  0 0 1 0 1 1
+  1 1 0 0 0 0
+  suivant le nouvel algorithme et rendre les listes semi-triée des lignes et colonnes sous forme d'une
+  liste de listes ligne puis colonne.
+  """
+  ordre_lignes = [set(range(len(table[0])))]
+  ordre_colonnes = [set(range(len(table)))]
+  lignes_autorisees = ordre_lignes[0] #set
+  colonnes_autorisees = ordre_colonnes[-1] #set
+  
+  #~ #monter c'est parcourir les lignes !
+  for i in range(len(table[0])):
+    #les lignes non vues sont toujours dans le premier set de la liste
+    ligne_elue = choixPivot(table, lignes_autorisees)
+    
+    #mettre ligne_elue en bas et donc redéfinir ordre_lignes
+    ordre_lignes = [lignes_autorisees - set([ligne_elue]), set([ligne_elue])] + ordre_lignes[1:]   
+    #redéfinir lignes_autorisees
+    lignes_autorisees = ordre_lignes[0]
+    
+    #entasser la ligne elue et donc redéfinir ordre_colonnes
+    ordre_colonnes = ordre_colonnes[:-1] + entasserLigne(table, ligne_elue, colonnes_autorisees)
+    #redéfinir lignes_autorisees
+    colonnes_autorisees = ordre_colonnes[-1]
+  
+  return [ordre_lignes, ordre_colonnes]
+
+############################################################
+#                          WARNING                          
+############################################################
+#  Le choix du pivot doit t-il se faire selon le poid des   
+#  lignes autorisées seulement ou faut-il prendre  en compte 
+#  les colonnes autorisées aussi ? 
+#
+#  Doit-on laisser les vides dans le resultat de monter                         
+#                                                           
+############################################################  
