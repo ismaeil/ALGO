@@ -99,15 +99,16 @@ def imporTable(chemin):
   """
   sortie = liste de listes de lignes
   """
-  sortie = []
-  for ligne in fichier:
-    aux = ligne.split()
-    aux = map (int, aux)
-    sortie.append(aux)
-  fichier.close()
-  sortie = transposeData(sortie)
-  
-  return Table(sortie)
+  sortie = [[int(x) for x in ligne.split()] for ligne in fichier]
+  #~ sortie = []
+  #~ for ligne in fichier:
+    #~ aux = ligne.split()
+    #~ aux = map (int, aux)
+    #~ sortie.append(aux)
+  #~ fichier.close()
+  #~ sortie = transposeData(sortie)
+  #~ 
+  return Table(transposeData(sortie))
 
 def reorderLC(table, ordrel, ordrec):
   """
@@ -121,27 +122,32 @@ def reorderLC(table, ordrel, ordrec):
       sortie[c].append(table[ordrec[c]][ordrel[l]])
   return sortie
 
-def choixPivot(table, ensemble_ligne):
+def choixPivot(table, ensemble_ligne, ensemble_colonne):
   """
   On entend par pivot la ligne qui a le plus grand poid
   Exemple :
+        * 
   1 0 0 1 0 1
   1 1 1 0 1 1
   0 0 1 0 1 1
   1 1 0 0 0 0
   
-  qui est table = [[1, 1, 0, 1], [0, 1, 0 ,1], [0, 1, 1, 0], [1, 0, 0, 0], [0, 1, 1, 0], [1, 1, 1, 0]]
-  on a choixPivot(table, set([0, 1, 3])) = 1 car le poid de la ligne 1 est cinq et est supérieur ou égal 
-  au poid des autres lignes. 
+  qui est t = [[1, 1, 0, 1], [0, 1, 0 ,1], [0, 1, 1, 0], [1, 0, 0, 0], [0, 1, 1, 0], [1, 1, 1, 0]]
+  on a choixPivot(t, set([0, 1, 3]), set([0, 1, 2, 3, 4, 5])) = 1 car le poid de la ligne 1 est 
+  (selon les colonnes : set([0, 1, 2, 3, 4, 5])) cinq et est supérieur ou égal au poid des autres lignes. 
+  le choix du pivot est fait parmi les lignes autorisées et les colonnes autorisées
+  
+  retourner la ligne pivot et l'ensemble des colonnes où elle a des 1
   """
   resultat = -1
   somme = 0
   for k in ensemble_ligne:
-    aux = sum(table[i][k] for i in range(len(table)))
+    aux = sum(table[i][k] for i in ensemble_colonne)
     if aux >= somme:
       somme = aux
       resultat = k
-  return resultat
+  colonnes_elues = set([j for j in ensemble_colonne if table[j][resultat] == 1])
+  return resultat, colonnes_elues
   
   
 def entasserLigne(table, ligne, colonnes_autorisees):
@@ -159,46 +165,45 @@ def entasserLigne(table, ligne, colonnes_autorisees):
   
   return nouvel_ordre_colonnes_autorisees
 
-
-def monter(table):
+def decoupage(indice_ligne, indice_colonne, L, C, T):
   """
-  Monter la table suivante :
-  1 0 0 1 0 1
-  1 1 1 0 1 1
-  0 0 1 0 1 1
-  1 1 0 0 0 0
-  suivant le nouvel algorithme et rendre les listes semi-triée des lignes et colonnes sous forme d'une
-  liste de listes ligne puis colonne.
+  à partir de indice_colonne, indice_ligne, L (liste d'ensemble), C (liste d'ensemble) et la 
+  table ; retourner c0, c1, l0, l1 (ensembles)
+  
+  Explications:
+  1) choisir pivot in L[indice_ligne] tq le nombre de 1 de la ligne pivot soit max dans C[indice_colonne]
+  2) c1 = ensemble de colonnes de C[indice_colonne] tq pivot à un 1 sur celles ci
+  3) c0 = ...
+  4) l1 = ensemble des elts de L[indice_ligne] qui ont des 1 sur ts les element de c1 (EXTENSION du pivot)
+  5) l0 = L[indice_ligne] \ l1
+  
+  Exemple:
+ 
+           * 0 1 2 3 4 5
+         * * * * * * * *
+  T =     0* 1 0 0 1 0 1
+          1* 1 1 1 0 1 1
+          2* 0 0 1 0 1 1
+          3* 1 1 0 0 0 0
+  
+  C = [{2, 3, 4}, {0, 1, 5}]
+  L = [{3}, {0, 2}, {1}]
+  indice_ligne = 1
+  indice_colonne = 0
+  pivot = 2 (in L[1] = {0, 2} qui maximise C[0] = {2, 3, 4})
+  c1 = {2, 4}
+  c0 = {3}
+  l1 = {2}
+  l0 = {0}
   """
-  ordre_lignes = [set(range(len(table[0])))]
-  ordre_colonnes = [set(range(len(table)))]
-  lignes_autorisees = ordre_lignes[0] #set
-  colonnes_autorisees = ordre_colonnes[-1] #set
+  pivot, c1 = choixPivot(T, L[indice_ligne], C[indice_colonne])
+  c0 = C[indice_colonne] - c1
+  l1 = []
+  for i in L[indice_ligne]:
+    for j in c1:
+      if T[j][i] == 1:
+        l1.append(i)
+  l1 = set(l1)
+  l0 = L[indice_ligne] - l1
   
-  #~ #monter c'est parcourir les lignes !
-  for i in range(len(table[0])):
-    #les lignes non vues sont toujours dans le premier set de la liste
-    ligne_elue = choixPivot(table, lignes_autorisees)
-    
-    #mettre ligne_elue en bas et donc redéfinir ordre_lignes
-    ordre_lignes = [lignes_autorisees - set([ligne_elue]), set([ligne_elue])] + ordre_lignes[1:]   
-    #redéfinir lignes_autorisees
-    lignes_autorisees = ordre_lignes[0]
-    
-    #entasser la ligne elue et donc redéfinir ordre_colonnes
-    ordre_colonnes = ordre_colonnes[:-1] + entasserLigne(table, ligne_elue, colonnes_autorisees)
-    #redéfinir lignes_autorisees
-    colonnes_autorisees = ordre_colonnes[-1]
-  
-  return [ordre_lignes, ordre_colonnes]
-
-############################################################
-#                          WARNING                          
-############################################################
-#  Le choix du pivot doit t-il se faire selon le poid des   
-#  lignes autorisées seulement ou faut-il prendre  en compte 
-#  les colonnes autorisées aussi ? 
-#
-#  Doit-on laisser les vides dans le resultat de monter                         
-#                                                           
-############################################################  
+  return c0, c1, l0, l1

@@ -89,20 +89,28 @@ class TableAffichageTest(unittest.TestCase):
     """
     On entend par pivot la ligne qui a le plus grand poid
     Exemple :
+          * 
     1 0 0 1 0 1
     1 1 1 0 1 1
     0 0 1 0 1 1
     1 1 0 0 0 0
     
     qui est t = [[1, 1, 0, 1], [0, 1, 0 ,1], [0, 1, 1, 0], [1, 0, 0, 0], [0, 1, 1, 0], [1, 1, 1, 0]]
-    on a choixPivot(t, set([0, 1, 3])) = 1 car le poid de la ligne 1 est cinq et est supérieur ou égal 
-    au poid des autres lignes. 
+    on a choixPivot(t, set([0, 1, 3]), set([0, 1, 2, 3, 4, 5])) = 1 car le poid de la ligne 1 est 
+    (selon les colonnes : set([0, 1, 2, 3, 4, 5])) cinq et est supérieur ou égal au poid des autres lignes. 
+    le choix du pivot est fait parmi les lignes autorisées et les colonnes autorisées
+    
+    retourner la ligne pivot et l'ensemble des colonnes où elle a des 1
     """
     t = [[1, 1, 0, 1], [0, 1, 0 ,1], [0, 1, 1, 0], [1, 0, 0, 0], [0, 1, 1, 0], [1, 1, 1, 0]]
-    self.assertEquals(choixPivot(t, set([0, 1, 2, 3])), 1) #1
-    self.assertTrue(choixPivot(t, set([0, 3, 2])) in [0, 2]) #2
-    self.assertTrue(choixPivot(t, set([2, 3, 0])) in [0, 2]) #2 oui car set réordonne la liste !
-    self.assertTrue(choixPivot(t, set([0, 2, 3])) in [0, 2]) #2 
+    #toutes les colonnes sont autorisées
+    self.assertEquals(choixPivot(t, set([0, 1, 2, 3]), set([0, 1, 2, 3, 4, 5])), (1, set([0, 1, 2, 5, 4])))
+    self.assertEquals(choixPivot(t, set([0, 3, 2]), set([0, 1, 2, 3, 4, 5])), (2, set([2, 5, 4])))
+    #certaines colonnes sont autorisées
+    self.assertEquals(choixPivot(t, set([0, 1, 2, 3]), set([0, 1, 2, 3, 4])), (1, set([0, 1, 2, 4])))
+    self.assertEquals(choixPivot(t, set([0, 3, 2]), set([0, 1, 4, 5])), (3, set([0, 1]))) 
+    self.assertEquals(choixPivot(t, set([2, 3, 0]),set([0, 1, 3, 4, 5])), (0, set([0, 3, 5])))
+    self.assertEquals(choixPivot(t, set([0, 1, 2, 3]), set([3])), (0, set([3])))
     
   def test_entasserLigne1(self):
     """
@@ -122,24 +130,82 @@ class TableAffichageTest(unittest.TestCase):
     c = [set([0, 3]), set([2, 5])]
     self.assertEquals(entasserLigne(t, 2, set([0, 2, 3, 5])), c)
 
-
-  def test_monter(self):
+  def test_decoupage1(self):
     """
-    Monter la table suivante :
-    1 0 0 1 0 1
-    1 1 1 0 1 1
-    0 0 1 0 1 1
-    1 1 0 0 0 0
-    suivant le nouvel algorithme et rendre les listes semi-triée des lignes et colonnes sous forme d'une
-    liste de listes ligne puis colonne.
-    """
-    t = [[1, 1, 0, 1], [0, 1, 0 ,1], [0, 1, 1, 0], [1, 0, 0, 0], [0, 1, 1, 0], [1, 1, 1, 0]]
-    ordre_ligne_colonne = [
-    [set([]), set([3]), set([0]), set([2]), set([1])],
-    [set([3]), set([0, 1]), set([2, 4]), set([5]), set([])]
-    ]
-    self.assertEquals(monter(t), ordre_ligne_colonne)
- 
+    à partir de indice_colonne, indice_ligne, L (liste d'ensemble), C (liste d'ensemble) et la 
+    table ; retourner c0, c1, l0, l1 (ensembles)
     
+    Explications:
+    1) choisir pivot in L[indice_ligne] tq le nombre de 1 de la ligne pivot soit max dans C[indice_colonne]
+    2) c1 = ensemble de colonnes de C[indice_colonne] tq pivot à un 1 sur celles ci
+    3) c0 = ...
+    4) l1 = ensemble des elts de L[indice_ligne] qui ont des 1 sur ts les element de c1 (EXTENSION du pivot)
+    5) l0 = L[indice_ligne] \ l1
+    
+    Exemple:
+   
+             * 0 1 2 3 4 5
+           * * * * * * * *
+    T =     0* 1 0 0 1 0 1
+            1* 1 1 1 0 1 1
+            2* 0 0 1 0 1 1
+            3* 1 1 0 0 0 0
+    
+    C = [{2, 3, 4}, {0, 1, 5}]
+    L = [{3}, {0, 2}, {1}]
+    indice_ligne = 1
+    indice_colonne = 0
+    pivot = 2 (in L[1] = {0, 2} qui maximise C[0] = {2, 3, 4})
+    c1 = {2, 4}
+    c0 = {3}
+    l1 = {2}
+    l0 = {0}
+    """
+    T = [[1, 1, 0, 1], [0, 1, 0 ,1], [0, 1, 1, 0], [1, 0, 0, 0], [0, 1, 1, 0], [1, 1, 1, 0]]
+    indice_ligne = 1
+    indice_colonne = 0
+    C = [set([2, 3, 4]), set([0, 1, 5])]
+    L = [set([3]), set([0, 2]), set([1])]
+    c1 = set([2, 4])
+    c0 = set([3])
+    l1 = set([2])
+    l0 = set([0])
+    self.assertEquals(decoupage(indice_ligne, indice_colonne, L, C, T), (c0, c1, l0, l1))
+
+  def test_decoupage2(self):
+    """
+    comme le test précedent mais en plus on essaye de voir si l'extension se fait vraiment 
+    l1 doit donc contenir plus que un élèment
+             * 0 1 2 3 4 5
+           * * * * * * * *
+    T =     0* 1 0 1 1 1 1
+            1* 1 1 1 0 1 1
+            2* 0 0 1 1 1 1
+            3* 1 1 0 0 0 0
+    
+    C = [{2, 3, 4}, {0, 1, 5}]
+    L = [{3}, {0, 2}, {1}]
+    indice_ligne = 1
+    indice_colonne = 0
+    pivot = 2 (in L[1] = {0, 2} qui maximise C[0] = {2, 3, 4})
+    c1 = {2, 3, 4}
+    c0 = {}
+    l1 = {2, 0}
+    l0 = {}
+    """
+    T = [[1, 1, 0, 1], [0, 1, 0 ,1], [1, 1, 1, 0], [1, 0, 1, 0], [1, 1, 1, 0], [1, 1, 1, 0]]
+    indice_ligne = 1
+    indice_colonne = 0
+    C = [set([2, 3, 4]), set([0, 1, 5])]
+    L = [set([3]), set([0, 2]), set([1])]
+    c1 = set([2, 4, 3])
+    c0 = set([])
+    l1 = set([2, 0])
+    l0 = set([])
+    self.assertEquals(decoupage(indice_ligne, indice_colonne, L, C, T), (c0, c1, l0, l1))
+
+  
+  
+  
 if __name__ == '__main__':
   unittest.main()
