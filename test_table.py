@@ -204,8 +204,95 @@ class TableAffichageTest(unittest.TestCase):
     l0 = set([])
     self.assertEquals(decoupage(indice_ligne, indice_colonne, L, C, T), (c0, c1, l0, l1))
 
-  
-  
-  
+  def test_maj1(self):
+    """
+    methode auxiliaire pour le programme principal
+    cas où c0 et c1 et l1 et l0 sont vides 
+    """
+    pos_l = 1
+    pos_c = 3
+    L = [set([1, 2, 3]), set([]), set([21, 22, 23]), set([44])]
+    C = [set([35]), set([111, 112, 113]), set([222, 232]), set([]), set([90])]
+    l0 = set([])
+    l1 = set([])
+    c0 = set([])
+    c1 = set([])
+    LL = [set([1, 2, 3]), set([]), set([21, 22, 23]), set([44])]
+    CC = [set([35]), set([111, 112, 113]), set([222, 232]), set([]), set([90])]
+    new_pos_l, new_pos_c = 1, 3 
+    self.assertEquals(maj(pos_c, pos_l, L, C, c0, c1, l0, l1), (new_pos_c, new_pos_l, LL, CC))
+
+  def test_maj2(self):
+    """
+    methode auxiliaire pour le programme principal
+    cas où l0 et l1 et c1 et c0 ne sont pas vides 
+    """
+    pos_l = 2
+    pos_c = 1
+    L = [set([1, 2, 3]), set([]), set([21, 22, 23]), set([44])]
+    C = [set([35]), set([111, 112, 113]), set([222, 232]), set([]), set([90])]
+    l0 = set([21, 22])
+    l1 = set([23])
+    c0 = set([111])
+    c1 = set([112, 113])
+    LL = [set([1, 2, 3]), set([]), l1, l0, set([44])]
+    CC = [set([35]), c0, c1, set([222, 232]), set([]), set([90])]
+    new_pos_l, new_pos_c = 3, 2 
+    self.assertEquals(maj(pos_c, pos_l, L, C, c0, c1, l0, l1), (new_pos_c, new_pos_l, LL, CC))
+    
+  def test_maj3(self):
+    """
+    methode auxiliaire pour le programme principal
+    cas où c0 et c1 sont vides mais pas l1 et l2 
+    """
+    pos_l = 0
+    pos_c = 3
+    L = [set([1, 2, 3]), set([]), set([21, 22, 23]), set([44])]
+    C = [set([35]), set([111, 112, 113]), set([222, 232]), set([]), set([90])]
+    l0 = set([1])
+    l1 = set([2, 3])
+    c0 = set([])
+    c1 = set([])
+    LL = [l1, l0, set([]), set([21, 22, 23]), set([44])]
+    CC = [set([35]), set([111, 112, 113]), set([222, 232]), set([]), set([90])]
+    new_pos_l, new_pos_c = 1, 3 
+    self.assertEquals(maj(pos_c, pos_l, L, C, c0, c1, l0, l1), (new_pos_c, new_pos_l, LL, CC))
+    
+  def test_maj4(self):
+    """
+    methode auxiliaire pour le programme principal
+    cas où l0 et l1 sont vides mais pas c1 et c2 
+    """
+    pos_l = 1
+    pos_c = 2
+    L = [set([1, 2, 3]), set([]), set([21, 22, 23]), set([44])]
+    C = [set([35]), set([111, 112, 113]), set([222, 232]), set([]), set([90])]
+    l0 = set([])
+    l1 = set([])
+    c0 = set([222])
+    c1 = set([232])
+    LL = [set([1, 2, 3]), set([]), set([21, 22, 23]), set([44])]
+    CC = [set([35]), set([111, 112, 113]), c0, c1, set([]), set([90])]
+    new_pos_l, new_pos_c = 1, 3 
+    self.assertEquals(maj(pos_c, pos_l, L, C, c0, c1, l0, l1), (new_pos_c, new_pos_l, LL, CC))
+    
+  def test_maj5(self):
+    """
+    methode auxiliaire pour le programme principal
+    seul l0 est vide 
+    """
+    pos_l = 2
+    pos_c = 2
+    L = [set([1, 2, 3]), set([]), set([21, 22, 23]), set([44])]
+    C = [set([35]), set([111, 112, 113]), set([222, 232]), set([]), set([90])]
+    l0 = set([])
+    l1 = set([21, 22, 23])
+    c0 = set([222])
+    c1 = set([232])
+    LL = [set([1, 2, 3]), set([]), set([21, 22, 23]), set([44])]
+    CC = [set([35]), set([111, 112, 113]), c0, c1, set([]), set([90])]
+    new_pos_l, new_pos_c = 2, 3 
+    self.assertEquals(maj(pos_c, pos_l, L, C, c0, c1, l0, l1), (new_pos_c, new_pos_l, LL, CC))
+
 if __name__ == '__main__':
   unittest.main()

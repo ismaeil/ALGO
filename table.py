@@ -207,3 +207,21 @@ def decoupage(indice_ligne, indice_colonne, L, C, T):
   l0 = L[indice_ligne] - l1
   
   return c0, c1, l0, l1
+
+def maj(pos_c, pos_l, L, C, c0, c1, l0, l1):
+  """
+  methode auxiliaire pour le programme principal
+  """
+  if (c0 != set([]) and c1 != set([])):
+    C = C[:pos_c] + [c0, c1] + C[pos_c + 1:]
+    new_pos_c = pos_c + 1
+  else:
+    new_pos_c = pos_c
+    
+  if (l0 != set([]) and l1 != set([])):
+    L = L[:pos_l] + [l1, l0] + L[pos_l + 1:]
+    new_pos_l = pos_l + 1
+  else:
+    new_pos_l = pos_l
+  
+  return new_pos_c, new_pos_l, L, C
