@@ -209,18 +209,20 @@ def decoupage(indice_ligne, indice_colonne, L, C, T):
   """
   pivot, c1 = choixPivot(T, L[indice_ligne], C[indice_colonne])
   c0 = C[indice_colonne] - c1
-  l1 = []
+  l1, l0 = [], []
   aux = 0
   for i in L[indice_ligne]:
     for j in c1:
-      if T[j][i] == 1:
-        aux += 1
-    if aux > 0:
+      aux += T[j][i]
+      
+    if aux == len(c1):
       l1.append(i)
       aux = 0
-  l1 = set(l1)
-  l0 = L[indice_ligne] - l1
+    else:
+      l0.append(i)
+      aux = 0
   
+  l1, l0 = set(l1), set(l0)
   return c0, c1, l0, l1
 
 
@@ -246,7 +248,7 @@ def invLigne(T):
   for ligne in T:
     ligne.reverse()
   return T
-#~ 
+
 #~ def algo(T):
   #~ """
   #~ à partir d'une table, on rend la liste des lignes et des colonnes après application de l'algo

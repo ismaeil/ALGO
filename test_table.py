@@ -204,6 +204,37 @@ class TableAffichageTest(unittest.TestCase):
     l0 = set([])
     self.assertEquals(decoupage(indice_ligne, indice_colonne, L, C, T), (c0, c1, l0, l1))
 
+  def test_decoupage3(self):
+    """
+             * 0 1 2 3 4 5
+           * * * * * * * *
+    T =     0* 1 1 0 0 0 0
+            1* 0 0 1 0 1 1
+            2* 1 1 1 0 1 1
+            3* 1 0 0 1 0 1
+    
+    C = [{2, 3, 4, 0, 1, 5}]
+    L = [{3, 0, 2, 1}]
+    indice_ligne = 0
+    indice_colonne = 0
+    pivot = 2 
+    c1 = {2, 5, 4, 1, 0}
+    c0 = {3}
+    l1 = {2}
+    l0 = {1, 3, 0}
+
+    """
+    T = [[1, 0, 1, 1], [1, 0, 1, 0], [0, 1, 1, 0], [0, 0, 0, 1], [0, 1, 1, 0], [0, 1, 1, 1]]
+    indice_ligne = 0
+    indice_colonne = 0
+    C = [set([2, 3, 4, 0, 1, 5])]
+    L = [set([3, 0, 2, 1])]
+    c1 = set([0, 2, 5, 4, 1])
+    c0 = set([3])
+    l1 = set([2])
+    l0 = set([1, 3, 0])
+    self.assertEquals(decoupage(indice_ligne, indice_colonne, L, C, T), (c0, c1, l0, l1))
+
   def test_maj1(self):
     """
     methode auxiliaire pour le programme principal
