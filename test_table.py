@@ -294,5 +294,42 @@ class TableAffichageTest(unittest.TestCase):
     new_pos_l, new_pos_c = 2, 3 
     self.assertEquals(maj(pos_c, pos_l, L, C, c0, c1, l0, l1), (new_pos_c, new_pos_l, LL, CC))
 
+  def test_invLigne(self):
+    """
+    inverser l'ordre des lignes d'une table
+    entrée = [[1, 1, 0, 1], [0, 1, 0, 1], [0, 1, 1, 0], [1, 0, 0, 0], [0, 1, 1, 0], [1, 1, 1, 0]]
+    sortie = [[1, 0, 1, 1], [1, 0, 1, 0], [0, 1, 1, 0], [0, 0, 0, 1], [0, 1, 1, 0], [0, 1, 1, 1]]
+    """
+    t = [[1, 1, 0, 1], [0, 1, 0, 1], [0, 1, 1, 0], [1, 0, 0, 0], [0, 1, 1, 0], [1, 1, 1, 0]]
+    tt = [[1, 0, 1, 1], [1, 0, 1, 0], [0, 1, 1, 0], [0, 0, 0, 1], [0, 1, 1, 0], [0, 1, 1, 1]]
+    self.assertEquals(invLigne(t), tt)
+    
+    
+  #~ def test_algo1(self):
+    #~ """
+    #~ à partir d'une table, on rend la liste des lignes et des colonnes après application de l'algo
+    #~ Si on veux, on peut appliquer la méthode nouvelOrdreLC pour réordonner ainsi la table.
+    #~ Exemple :
+    #~ à partir de :
+        #~ c0 c1 c2 c3 c4 c5
+    #~ l0* 1  0  0  1  0  1
+    #~ l1* 1  1  1  0  1  1
+    #~ l2* 0  0  1  0  1  1
+    #~ l3* 1  1  0  0  0  0
+     #~ qui est t = [[1, 1, 0, 1], [0, 1, 0 ,1], [0, 1, 1, 0], [1, 0, 0, 0], [0, 1, 1, 0], [1, 1, 1, 0]]
+    #~ 
+    #~ rendre l'ordre de 
+        #~ c3 c1 c0 c2 c4 c5
+    #~ l3* 0  1  1  0  0  0
+    #~ l0* 1  0  1  0  0  1
+    #~ l2* 0  0  0  1  1  1
+    #~ l1* 0  1  1  1  1  1
+    #~ 
+    #~ la sortie doit donc être : L, C = [3, 0, 2, 1], [3, 1, 0, 2, 4, 5]
+    #~ """
+    #~ t = [[1, 1, 0, 1], [0, 1, 0 ,1], [0, 1, 1, 0], [1, 0, 0, 0], [0, 1, 1, 0], [1, 1, 1, 0]]
+    #~ L, C = [3, 0, 2, 1], [3, 1, 0, 2, 4, 5]
+    #~ self.assertEquals(algo(t), (L, C))
+
 if __name__ == '__main__':
   unittest.main()
