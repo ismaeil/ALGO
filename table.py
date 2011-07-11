@@ -55,7 +55,11 @@ class Table(object):
         L.append(E1)
       LL = L
     liste_ordre = goodListe(L)
-    resultat = self.nouvelOrdre(liste_ordre)
+    #indice mini = 0
+    aux = []
+    for i in liste_ordre:
+      aux.append(i - 1)
+    resultat = self.nouvelOrdre(aux)
     return resultat
 
 
@@ -64,14 +68,10 @@ def goodListe(liste):
   [set([]), set([3]), set([]), set([4]), set([1]), set([]), set([]), set([2])]
   se transforme en 
   [3, 4, 1, 2]
-  puis en 
-  [2, 3, 0, 1] pour être adaptée à la méthode nouvelOrdre
   """
-  sortie0, sortie = [], []
+  sortie = []
   for u in liste:
-    sortie0.extend(u)
-  for l in sortie0:
-    sortie.append(l -1)
+    sortie.extend(u)
   return sortie
 
 def transposeData(listedelistes):
@@ -283,10 +283,11 @@ def algo(T):
       pos_c -= 1
       pos_l = pile.pop() + 1
     else:
-      if (new_pos_c > pos_l):
-        pile.append(pos_l)
+      if (new_pos_c > pos_c):
+        pile.append(pos_c)
         pos_c += 1
       pos_l +=  1
   #l'algo considère que le première ligne de la atble est d'indice le plus grand : il faut donc inverser L
   L.reverse()
-  return L, C
+  #
+  return goodListe(L), goodListe(C)

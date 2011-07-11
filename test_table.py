@@ -29,16 +29,24 @@ class TableAffichageTest(unittest.TestCase):
     t = Table([[0, 0, 1], [1, 1, 1], [1, 0, 0], [1, 1, 0]])
     self.assertEquals(t.nouvelOrdre([3, 1, 0, 2]),[[1, 1, 0], [1, 1, 1], [0, 0, 1], [1, 0, 0]])
     
-  def test_goodListe(self):
+  def test_goodListe1(self):
     """
     [set([]), set([3]), set([]), set([4]), set([1]), set([]), set([]), set([2])]
     se transforme en 
     [3, 4, 1, 2]
-    puis en 
-    [2, 3, 0, 1] pour être adaptée à la méthode nouvelOrdre
     """
     t = goodListe([set([]), set([3]), set([]), set([4]), set([1]), set([]), set([]), set([2])])
-    self.assertEquals(t, [2, 3, 0, 1] )
+    self.assertEquals(t, [3, 4, 1, 2])
+    
+    
+  def test_goodListe2(self):
+    """
+    [set([]), set([3, 6]), set([]), set([4]), set([1]), set([]), set([]), set([2])]
+    se transforme en 
+    [3, 6, 4, 1, 2]
+    """
+    t = goodListe([set([]), set([3, 6]), set([]), set([4]), set([1]), set([]), set([]), set([2])])
+    self.assertEquals(t, [3, 6, 4, 1, 2] )
   
   def test_reorderTab1(self):
     """
