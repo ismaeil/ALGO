@@ -158,8 +158,8 @@ def choixPivot(table, ensemble_ligne, ensemble_colonne):
       resultat = k
   colonnes_elues = set([j for j in ensemble_colonne if table[j][resultat] == 1])
   return resultat, colonnes_elues
-  
-  
+ 
+ 
 def entasserLigne(table, ligne, colonnes_autorisees):
   """
   entasser une ligne selon un ensemble de colonnes revient à mettre tous ses 1 à droite et ses zero 
@@ -174,8 +174,8 @@ def entasserLigne(table, ligne, colonnes_autorisees):
   nouvel_ordre_colonnes_autorisees = [set(zero), set(un)] # il peut y avir des ensembles vides
   
   return nouvel_ordre_colonnes_autorisees
-
-
+ 
+ 
 def decoupage(indice_ligne, indice_colonne, L, C, T):
   """
   à partir de indice_colonne, indice_ligne, L (liste d'ensemble), C (liste d'ensemble) et la 
@@ -225,7 +225,7 @@ def decoupage(indice_ligne, indice_colonne, L, C, T):
   l1, l0 = set(l1), set(l0)
   return c0, c1, l0, l1
 
-
+ 
 def maj(pos_c, pos_l, L, C, c0, c1, l0, l1):
   """
   methode auxiliaire pour le programme principal
@@ -275,7 +275,7 @@ def invLigne(T):
   #~ #LE T passé en argument est tel que la première ligne est d'indice 0 (adoption de cet ardre pour toutes les méthodes dès le début)
   #~ #Mais l'algo est tel que la dernière ligne est d'indice 0
   #~ #on commence donc par inverser les ligne de T
-  #~ T = invLigne(T)
+  #~ #T = invLigne(T)
   #~ L, C = [set(range(len(T[0])))], [set(range(len(T)))]
   #~ pos_l, pos_c = 0, 0
   #~ pile = [-1]
@@ -292,5 +292,4 @@ def invLigne(T):
         #~ pile.append(pos_l)
         #~ pos_c += 1
       #~ pos_l +=  1
-#~ 
   #~ return L, C
