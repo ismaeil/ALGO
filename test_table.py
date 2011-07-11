@@ -358,6 +358,30 @@ class TableAffichageTest(unittest.TestCase):
     t = [[1, 1, 0, 1], [0, 1, 0 ,1], [0, 1, 1, 0], [1, 0, 0, 0], [0, 1, 1, 0], [1, 1, 1, 0]]
     L, C = [3, 0, 2, 1], [3, 1, 0, 2, 4, 5]
     self.assertEquals(algo(t), (L, C))
+    
+    
+  def test_algo2(self):
+    """
+    cette fois la table est déjà ordonnée !
+    0 0 0 0 0
+    0 0 0 0 1
+    0 0 0 1 1
+    0 0 1 1 1
+    0 1 1 1 1
+    1 1 1 1 1
+    
 
+    """
+    t = [
+    [0, 0, 0, 0, 0, 1], 
+    [0, 0, 0, 0, 1, 1], 
+    [0, 0, 0, 1, 1, 1], 
+    [0, 0, 1, 1, 1, 1], 
+    [0, 1, 1, 1, 1, 1], 
+    ]
+    L, C = [0, 1, 2, 3, 4, 5], [0, 1, 2, 3, 4]
+    self.assertEquals(algo(t), (L, C))
+    
+    
 if __name__ == '__main__':
   unittest.main()

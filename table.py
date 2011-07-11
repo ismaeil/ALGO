@@ -206,6 +206,12 @@ def decoupage(indice_ligne, indice_colonne, L, C, T):
   c0 = {3}
   l1 = {2}
   l0 = {0}
+  
+  Remarque : Dans l'algo, quand on ne peut pas découper (en retour), on laisse l'ensemble tel quel et il est finalement découpé
+   avec goodListe.
+   exemple : 
+  lors du test_alogo1 les colonnes {2, 4} ne sont pas séparées ni en allé ni en retour (car en plus les deux colonnes sont identiques)
+  cette non séparation ne disaprait qu'à l'étape de la méthode goodListe 
   """
   pivot, c1 = choixPivot(T, L[indice_ligne], C[indice_colonne])
   c0 = C[indice_colonne] - c1
