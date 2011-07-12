@@ -369,8 +369,6 @@ class TableAffichageTest(unittest.TestCase):
     0 0 1 1 1
     0 1 1 1 1
     1 1 1 1 1
-    
-
     """
     t = [
     [0, 0, 0, 0, 0, 1], 
@@ -380,6 +378,49 @@ class TableAffichageTest(unittest.TestCase):
     [0, 1, 1, 1, 1, 1], 
     ]
     L, C = [0, 1, 2, 3, 4, 5], [0, 1, 2, 3, 4]
+    self.assertEquals(algo(t), (L, C))
+    
+    
+  def test_algo3(self):
+    """
+    cette fois la table est desordonnée !
+    1 1 1 1 1
+    1 1 1 1 0
+    1 1 1 0 0
+    1 1 0 0 0
+    1 0 0 0 0
+    0 0 0 0 0
+    """
+    t = [
+    [1, 1, 1, 1, 1, 0], 
+    [1, 1, 1, 1, 0, 0], 
+    [1, 1, 1, 0, 0, 0], 
+    [1, 1, 0, 0, 0, 0], 
+    [1, 0, 0, 0, 0, 0], 
+    ]
+    L, C = [5, 4, 3, 2, 1, 0], [4, 3, 2, 1, 0]
+    self.assertEquals(algo(t), (L, C))
+    
+    
+  def test_algo4(self):
+    """
+    cette fois la table il y a des sépartions ligne sans colonnes et colonnes sans lignes 
+    avec changement d'ordre en retour...(cas général me parait-il)
+    1 1 0 0 1 0
+    1 0 0 0 1 0
+    0 0 1 1 1 1 
+    1 1 1 1 1 1
+    """
+    t = [
+    [1, 1, 0, 1], 
+    [1, 0, 0, 1], 
+    [0, 0, 1, 1], 
+    [0, 0, 1, 1], 
+    [1, 1, 1, 1], 
+    [0, 0, 1, 1], 
+ 
+    ]
+    L, C = [1, 0, 2, 3], [1, 0, 2, 3, 5, 4]
     self.assertEquals(algo(t), (L, C))
     
     
