@@ -5,15 +5,16 @@ import unittest
 import os
 import sys
 
-dirname = os.path.dirname(__file__)
-if dirname == '':
-    dirname = '.'
-dirname = os.path.realpath(dirname)
-updir = os.path.split(dirname)[0]
-if updir not in sys.path:
-    sys.path.append(updir)
+#~ dirname = os.path.dirname(__file__)
+#~ if dirname == '':
+  #~ dirname = '.'
+#~ dirname = os.path.realpath(dirname)
+#~ updir = os.path.split(dirname)[0]
+#~ if updir not in sys.path:
+  #~ sys.path.append(updir)
 
 from table import *
+from import_export import *
 
 class AlgoTest(unittest.TestCase):
   
@@ -94,8 +95,46 @@ class AlgoTest(unittest.TestCase):
     importer le fichier Examples/table1.txt
     et construire l'objet Table correspondant
     """
-    t = imporTable('Examples/table1.txt')
+    
+    f = open('Examples/table1.txt')
+    t = imporTable(f)
+        
     self.assertEquals(t, [[1, 1, 0, 1], [0, 1, 0 ,1], [0, 1, 1, 0], [1, 0, 0, 0], [0, 1, 1, 0], [1, 1, 1, 0]])
+
+
+  def test_imporTable_generique(self):
+    """
+    importer le fichier Examples/table1.txt
+    et construire l'objet Table correspondant
+    """
+    
+    f = open('Examples/table1.txt')
+    t, l, c = imporTable_generique(f)
+        
+    self.assertEquals(t, [[1, 1, 0, 1], [0, 1, 0 ,1], [0, 1, 1, 0], [1, 0, 0, 0], [0, 1, 1, 0], [1, 1, 1, 0]])
+    self.assertEquals(l, [""] * 4)
+    self.assertEquals(c, [""] * 6)
+    
+    f = open('Examples/tableLC.txt')
+    t, l, c = imporTable_generique(f, True, True)
+        
+    self.assertEquals(t, [[1, 1, 0, 1], [0, 1, 0 ,1], [0, 1, 1, 0], [1, 0, 0, 0], [0, 1, 1, 0], [1, 1, 1, 0]])
+    self.assertEquals(c, [x for x in 'ABCDEF'])
+    self.assertEquals(l, [x for x in 'abcd'])
+
+    f = open('Examples/tableL.txt')
+    t, l, c = imporTable_generique(f, True, False)
+        
+    self.assertEquals(t, [[1, 1, 0, 1], [0, 1, 0 ,1], [0, 1, 1, 0], [1, 0, 0, 0], [0, 1, 1, 0], [1, 1, 1, 0]])
+    self.assertEquals(c, [""] * 6)
+    self.assertEquals(l, [x for x in 'abcd'])
+    
+    f = open('Examples/tableC.txt')
+    t, l, c = imporTable_generique(f, False, True)
+        
+    self.assertEquals(t, [[1, 1, 0, 1], [0, 1, 0 ,1], [0, 1, 1, 0], [1, 0, 0, 0], [0, 1, 1, 0], [1, 1, 1, 0]])
+    self.assertEquals(c, [x for x in 'ABCDEF'])
+    self.assertEquals(l, [""] * 4)
 
   def test_reorderLC(self):
     """
@@ -438,6 +477,7 @@ class AlgoTest(unittest.TestCase):
     L, C = [1, 0, 2, 3], [1, 0, 2, 3, 5, 4]
     self.assertEquals(algo(t), (L, C))
     
+      
     
 if __name__ == '__main__':
   unittest.main()
