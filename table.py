@@ -75,6 +75,7 @@ def transposeData(listedelistes):
       sortie[ligne].append(col[ligne])
   return sortie 
   
+  
 def imporTable(chemin):
   """
   importer le fichier Examples/table1.txt
