@@ -1,66 +1,52 @@
 #! /usr/bin/python
 # -*- coding: utf-8 -*-
 
-class Table(object):
-  
-  """ Une Table 0/1 sera considérée comme une liste de listes (colonnes).
-  Exemple : 
-  1 1 1 0 0
-  1 0 0 0 1
-  0 0 1 1 0
-  est :
-  [[1, 1, 0], [1, 0, 0], [1, 0, 1], [0, 0, 1], [0, 1, 0]]
+def nouvelOrdre(table, liste):
   """
-  
-  def __init__(self, liste):
-    self.donnee = liste
+  réordonner les colonnes suivant la liste en tant qu'index
+  exemple :
+  la résultat du réordonnancement de 
+  [[0, 0, 1], [1, 1, 1], [1, 0, 0], [1, 1, 0]]
+  suivant la table [3, 1, 0, 2]
+  est
+  [[1, 1, 0], [1, 1, 1], [0, 0, 1], [1, 0, 0]]
+  """
+  result = []
+  for i in liste:
+    result.append(table[i])
+  return result
 
-  def nouvelOrdre(self, liste):
-    """
-    réordonner les colonnes suivant la liste en tant qu'index
-    exemple :
-    la résultat du réordonnancement de 
-    [[0, 0, 1], [1, 1, 1], [1, 0, 0], [1, 1, 0]]
-    suivant la table [3, 1, 0, 2]
-    est
-    [[1, 1, 0], [1, 1, 1], [0, 0, 1], [1, 0, 0]]
-    """
-    result = []
-    for i in liste:
-      result.append(self.donnee[i])
-    return result
-  
-  def reorderTab(self):
-    """
-    ordonner la table itérativement.
-    On a besoin de deux listes intermédiaires L(n+1) et L(n). on les appellera LL et L
-    la sortie est une liste d'ordre
-    """
-    nombre_colonnes = len(self.donnee)
-    nombre_lignes = len(self.donnee[0])
-    LL = [set(range(1, nombre_colonnes + 1))]
-    liste_aux = range(1, nombre_lignes + 1)
-    liste_aux.reverse()
-    for i in liste_aux:
-      L = []
-      for A in LL:
-        E0 = set()
-        E1 = set()
-        for j in list(A):
-          if self.donnee[j - 1][i - 1] == 0:
-            E0 = E0 | set([j])
-          else:
-            E1 = E1 | set([j])
-        L.append(E0)
-        L.append(E1)
-      LL = L
-    liste_ordre = goodListe(L)
-    #indice mini = 0
-    aux = []
-    for i in liste_ordre:
-      aux.append(i - 1)
-    resultat = self.nouvelOrdre(aux)
-    return resultat
+def reorderTab(table):
+  """
+  ordonner la table itérativement.
+  On a besoin de deux listes intermédiaires L(n+1) et L(n). on les appellera LL et L
+  la sortie est une liste d'ordre
+  """
+  nombre_colonnes = len(table)
+  nombre_lignes = len(table[0])
+  LL = [set(range(1, nombre_colonnes + 1))]
+  liste_aux = range(1, nombre_lignes + 1)
+  liste_aux.reverse()
+  for i in liste_aux:
+    L = []
+    for A in LL:
+      E0 = set()
+      E1 = set()
+      for j in list(A):
+        if table[j - 1][i - 1] == 0:
+          E0 = E0 | set([j])
+        else:
+          E1 = E1 | set([j])
+      L.append(E0)
+      L.append(E1)
+    LL = L
+  liste_ordre = goodListe(L)
+  #indice mini = 0
+  aux = []
+  for i in liste_ordre:
+    aux.append(i - 1)
+  resultat = nouvelOrdre(table, aux)
+  return resultat
 
 
 def goodListe(liste):
@@ -93,7 +79,7 @@ def imporTable(chemin):
   """
   importer le fichier Examples/table1.txt
   et construire l'objet Table correspondant
-  cette méthode retourne un objet Table
+  cette méthode retourne un tableau de tableau
   """
   fichier = open(chemin ,'r')
   """
@@ -108,7 +94,8 @@ def imporTable(chemin):
   #~ fichier.close()
   #~ sortie = transposeData(sortie)
   #~ 
-  return Table(transposeData(sortie))
+  return transposeData(sortie)
+  
 
 def reorderLC(table, ordrel, ordrec):
   """

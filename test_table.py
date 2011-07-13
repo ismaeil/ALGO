@@ -15,7 +15,7 @@ if updir not in sys.path:
 
 from table import *
 
-class TableAffichageTest(unittest.TestCase):
+class AlgoTest(unittest.TestCase):
   
   """
   Classe de tests du réordonnancement de la table 0/1.
@@ -26,8 +26,8 @@ class TableAffichageTest(unittest.TestCase):
     ordonne les colonnes dans l'ordre passé en argument à l'aide d'une liste
     ATTENTION : le min de la liste d'ordre est un 0
     """
-    t = Table([[0, 0, 1], [1, 1, 1], [1, 0, 0], [1, 1, 0]])
-    self.assertEquals(t.nouvelOrdre([3, 1, 0, 2]),[[1, 1, 0], [1, 1, 1], [0, 0, 1], [1, 0, 0]])
+    t = [[0, 0, 1], [1, 1, 1], [1, 0, 0], [1, 1, 0]]
+    self.assertEquals(nouvelOrdre(t, [3, 1, 0, 2]),[[1, 1, 0], [1, 1, 1], [0, 0, 1], [1, 0, 0]])
     
   def test_goodListe1(self):
     """
@@ -54,8 +54,8 @@ class TableAffichageTest(unittest.TestCase):
     0 1 0 1     se transforme en      0 1 0 1
     1 1 0 0                           0 0 1 1
     """
-    t = Table([[0, 0, 1], [1, 1, 1], [1, 0, 0], [1, 1, 0]])
-    self.assertEquals(t.reorderTab(),[[1, 0, 0], [1, 1, 0], [0, 0, 1], [1, 1, 1]])
+    t = [[0, 0, 1], [1, 1, 1], [1, 0, 0], [1, 1, 0]]
+    self.assertEquals(reorderTab(t),[[1, 0, 0], [1, 1, 0], [0, 0, 1], [1, 1, 1]])
 
   def test_reorderTab2(self):
     """
@@ -63,9 +63,24 @@ class TableAffichageTest(unittest.TestCase):
     1 1 0 1     se transforme en      1 0 1 1
     1 1 1 0                           0 1 1 1
     """
-    t2 = Table([[1, 1, 1], [0, 1, 1], [0, 0, 1], [0, 1, 0]])
-    self.assertEquals(t2.reorderTab(),[[0, 1, 0], [0, 0, 1], [0, 1, 1], [1, 1, 1]])
-   
+    t2 = [[1, 1, 1], [0, 1, 1], [0, 0, 1], [0, 1, 0]]
+    self.assertEquals(reorderTab(t2),[[0, 1, 0], [0, 0, 1], [0, 1, 1], [1, 1, 1]])
+
+  def test_comparer_reordertab_et_algo(self):
+    """
+    0 1 1 1          reorder          1 1 0 1
+    0 1 0 1     se transforme en      0 1 0 1
+    1 1 0 0                           0 0 1 1
+    
+    0 1 1 1          algo             1 0 0 1
+    0 1 0 1     se transforme en      0 0 1 1
+    1 1 0 0                           0 1 1 1
+    
+    """
+    t = [[0, 0, 1], [1, 1, 1], [1, 0, 0], [1, 1, 0]]
+    L, C = algo(t)
+    self.assertFalse(reorderTab(t) == reorderLC(t, L, C))
+
   def test_transposeData(self):
     """
     entree = [[1, 2, 3, 4, 5],[11, 12, 13, 14, 15],[21, 22, 23, 24, 25]]
@@ -80,7 +95,7 @@ class TableAffichageTest(unittest.TestCase):
     et construire l'objet Table correspondant
     """
     t = imporTable('Examples/table1.txt')
-    self.assertEquals(t.donnee, [[1, 1, 0, 1], [0, 1, 0 ,1], [0, 1, 1, 0], [1, 0, 0, 0], [0, 1, 1, 0], [1, 1, 1, 0]])
+    self.assertEquals(t, [[1, 1, 0, 1], [0, 1, 0 ,1], [0, 1, 1, 0], [1, 0, 0, 0], [0, 1, 1, 0], [1, 1, 1, 0]])
 
   def test_reorderLC(self):
     """
