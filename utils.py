@@ -14,6 +14,4 @@ def transposeData(listedelistes):
   for col in listedelistes:
     for ligne in range(nblignes):
       sortie[ligne].append(col[ligne])
-  return sortie 
-
-  
+  return sortie
