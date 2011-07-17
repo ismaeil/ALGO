@@ -98,10 +98,10 @@ def tabletostr(table, label_ligne, label_colonne, ordre_ligne, ordre_colonne):
   print sortie
   
 #~ #EXEMPLE :
-table, label_ligne, label_colonne = imporTable_generique(open('Examples/table_7_10.txt'), False, False)
-ordre_ligne = [set([0, 1]), set([2, 3])]
-ordre_colonne = [set([0, 1, 2]), set([3, 4]), set([5])]
-tabletostr(table, label_ligne, label_colonne, ordre_ligne, ordre_colonne)
+#~ table, label_ligne, label_colonne = imporTable_generique(open('Examples/table_7_10.txt'), False, False)
+#~ ordre_ligne = [set([0, 1]), set([2, 3])]
+#~ ordre_colonne = [set([0, 1, 2]), set([3, 4]), set([5])]
+#~ tabletostr(table, label_ligne, label_colonne, ordre_ligne, ordre_colonne)
 
 def creerFicTable(chemin_repertoire_parent, nom_fic, nb_l, nb_c):
   """
@@ -128,4 +128,4 @@ def creerFicTable(chemin_repertoire_parent, nom_fic, nb_l, nb_c):
   
 
 #~ Exemple :
-creerFicTable('./Examples', 'table', 7, 10)
+#~ creerFicTable('./Examples', 'table', 7, 10)
