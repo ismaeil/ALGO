@@ -1,7 +1,8 @@
 #! /usr/bin/python
 # -*- coding: utf-8 -*-
 
-from utils import transposeData
+from utils import *
+from table import *
 import random
 
 def imporTable(fichier):
@@ -57,40 +58,46 @@ def imporTable_generique(fichier, label_lignes=False, label_colonnes=False):
 
 def tabletostr(table, label_ligne, label_colonne, ordre_ligne, ordre_colonne):
   
-  nb_ligne = len(label_ligne) + 1
+  label_l = [label_ligne[i] for i in goodListe(ordre_ligne)]
+  label_c = [label_colonne[i] for i in goodListe(ordre_colonne)]
+  ordre_l = customap(ordre_ligne)
+  ordre_c = customap(ordre_colonne)
+  t = reorderLC(table, goodListe(ordre_ligne), goodListe(ordre_colonne))
+  
+  nb_ligne = len(label_l) + 1
   
   #trouver les indices pour couper les colonnes
   indice_separation_colonnes = []
-  for ens in ordre_colonne[:-1]:
+  for ens in ordre_c[:-1]:
     indice_separation_colonnes.append(list(ens).pop())
     
   #trouver les indices pour couper les lignes
   indice_separation_lignes = []
-  for ens in ordre_ligne[:-1]:
+  for ens in ordre_l[:-1]:
     indice_separation_lignes.append(list(ens).pop())
     
   sortie = " " * nb_ligne
-  for j, y in enumerate(label_colonne):
+  for j, y in enumerate(label_c):
     sortie += y + " "
     # séparer label colonnes
     # si les labels colonnes existent
-    if set(label_colonne) != set([""]):
+    if set(label_c) != set([""]):
       if j in indice_separation_colonnes:
           sortie += "| "
   
   sortie += "\n"
   
-  for i, x in enumerate(label_ligne):
+  for i, x in enumerate(label_l):
     sortie += x.ljust(nb_ligne)
     nb_cols = len(x.ljust(nb_ligne))
-    for j, y in enumerate(label_colonne):
-      sortie += str(table[j][i]).center(len(y)) + " "
-      nb_cols += len(str(table[j][i]).center(len(y)) + " ")
-      # séparer colonnes table
+    for j, y in enumerate(label_c):
+      sortie += str(t[j][i]).center(len(y)) + " "
+      nb_cols += len(str(t[j][i]).center(len(y)) + " ")
+      # séparer colonnes t
       if j in indice_separation_colonnes:
         sortie += "| "
         nb_cols += 2
-    # séparer lignes table
+    # séparer lignes t
     if i in indice_separation_lignes:
         sortie += "\n" + ("-" * nb_cols)
     sortie += "\n"
@@ -98,34 +105,19 @@ def tabletostr(table, label_ligne, label_colonne, ordre_ligne, ordre_colonne):
   print sortie
   
 #~ #EXEMPLE :
-#~ table, label_ligne, label_colonne = imporTable_generique(open('Examples/table_7_10.txt'), False, False)
-#~ ordre_ligne = [set([0, 1]), set([2, 3])]
-#~ ordre_colonne = [set([0, 1, 2]), set([3, 4]), set([5])]
+#~ table, label_ligne, label_colonne = imporTable_generique(open('Examples/table_7_10.txt'), True, True)
+#~ ordre_ligne = [set([0, 1]), set([2, 3]), set([4, 5, 6])]
+#~ ordre_colonne = [set([0, 1, 2]), set([3, 4]), set([5, 6, 7, 8, 9])]
 #~ tabletostr(table, label_ligne, label_colonne, ordre_ligne, ordre_colonne)
 
-def creerFicTable(chemin_repertoire_parent, nom_fic, nb_l, nb_c):
+def creerTable(nb_l, nb_c):
   """
-  chemin_repertoire_parent = chemin absou ou relatif sans le / à la fin
-  nom_fic = nom fichier sans extension
-  
-  Exemple : creerFicTable('./Examples', 'table', 10, 20)
+  créer une table aléatoire à partir qui a nb_l lignes et nb_c colonnes
   """
-  nom_complet_fichier = chemin_repertoire_parent + "/" + nom_fic + "_" + str(nb_l) + "_" + str(nb_c) + ".txt"
-  fichier = open(nom_complet_fichier, 'w')
-  #générer la liste des lignes
-  listelignes = ["" for i in range(nb_l)]
-  ligne = ""
-  for i in range(nb_l):
-    for j in range(nb_c - 1):
-      ligne += str(random.randint(0, 1)) + " "
-    ligne += str(random.randint(0, 1)) + "\n"
-    listelignes[i] = ligne
-    ligne = ""
+  listecolonnes = [[] for j in range(nb_c)]
+  for j in range(nb_c):
+    for i in range(nb_l):
+      listecolonnes[j].append(random.randint(0, 1))
     
-  #~ print listelignes
-  fichier.writelines(listelignes)
-  fichier.close()
+  return listecolonnes
   
-
-#~ Exemple :
-#~ creerFicTable('./Examples', 'table', 7, 10)
